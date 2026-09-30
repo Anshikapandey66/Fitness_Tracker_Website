@@ -3,479 +3,380 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FitTrack - Fitness Tracker</title>
+    <title>FitTrack | Fitness & Wellness</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
+    <link rel="stylesheet" href="style.css">
 
-        body {
-            background: #f4f7f6;
-            color: #222;
-            transition: 0.3s;
-        }
-
-        body.dark {
-            background: #121212;
-            color: white;
-        }
-
-        header {
-            background: #1abc9c;
-            color: white;
-            padding: 20px 8%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        header h1 {
-            font-size: 28px;
-        }
-
-        header button {
-            border: none;
-            padding: 10px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            background: white;
-            color: #1abc9c;
-        }
-
-        .container {
-            width: 84%;
-            margin: 30px auto;
-        }
-
-        .welcome {
-            margin-bottom: 25px;
-        }
-
-        .welcome h2 {
-            margin-bottom: 8px;
-        }
-
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-
-        .card {
-            background: white;
-            padding: 22px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        }
-
-        body.dark .card {
-            background: #1e1e1e;
-        }
-
-        .card h3 {
-            margin-bottom: 15px;
-        }
-
-        .number {
-            font-size: 30px;
-            font-weight: bold;
-            color: #1abc9c;
-        }
-
-        .progress {
-            background: #ddd;
-            height: 10px;
-            border-radius: 10px;
-            margin: 15px 0;
-            overflow: hidden;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: #1abc9c;
-            width: 0%;
-        }
-
-        .section {
-            margin-top: 30px;
-        }
-
-        .section h2 {
-            margin-bottom: 18px;
-        }
-
-        .workouts {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-
-        .workout {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-        }
-
-        body.dark .workout {
-            background: #1e1e1e;
-        }
-
-        .workout span {
-            font-size: 40px;
-        }
-
-        .workout h3 {
-            margin: 10px;
-        }
-
-        .workout button,
-        .bmi button {
-            background: #1abc9c;
-            color: white;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        .bmi-box {
-            background: white;
-            padding: 25px;
-            border-radius: 15px;
-            max-width: 500px;
-        }
-
-        body.dark .bmi-box {
-            background: #1e1e1e;
-        }
-
-        input {
-            width: 100%;
-            padding: 12px;
-            margin: 8px 0 15px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-        }
-
-        #bmiResult {
-            margin-top: 15px;
-            font-weight: bold;
-            color: #1abc9c;
-        }
-
-        footer {
-            margin-top: 50px;
-            text-align: center;
-            padding: 20px;
-            background: #1abc9c;
-            color: white;
-        }
-
-        @media(max-width: 900px) {
-            .cards {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .workouts {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media(max-width: 600px) {
-            .container {
-                width: 92%;
-            }
-
-            .cards {
-                grid-template-columns: 1fr;
-            }
-
-            header {
-                padding: 18px 4%;
-            }
-        }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
-<header>
-    <h1>💪 FitTrack</h1>
-    <button onclick="toggleDark()">🌙 Dark Mode</button>
-</header>
+<div class="app">
 
-<div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
 
-    <div class="welcome">
-        <h2>Welcome to FitTrack 👋</h2>
-        <p>Track your daily fitness and stay healthy.</p>
-    </div>
-
-    <!-- Dashboard -->
-    <div class="cards">
-
-        <div class="card">
-            <h3>👟 Steps</h3>
-            <div class="number" id="steps">0</div>
-            <p>Goal: 10,000 steps</p>
-
-            <div class="progress">
-                <div class="progress-bar" id="stepBar"></div>
-            </div>
-
-            <button onclick="addSteps()">+ 500 Steps</button>
+        <div class="logo">
+            <span>💪</span>
+            FitTrack
         </div>
 
-        <div class="card">
-            <h3>🔥 Calories</h3>
-            <div class="number" id="calories">0</div>
-            <p>kcal burned</p>
-
-            <div class="progress">
-                <div class="progress-bar" id="calorieBar"></div>
-            </div>
-
-            <button onclick="addCalories()">+ 100 kcal</button>
-        </div>
-
-        <div class="card">
-            <h3>💧 Water</h3>
-            <div class="number" id="water">0</div>
-            <p>Glasses / 8</p>
-
-            <div class="progress">
-                <div class="progress-bar" id="waterBar"></div>
-            </div>
-
-            <button onclick="addWater()">+ 1 Glass</button>
-        </div>
-
-        <div class="card">
-            <h3>⏱️ Workout</h3>
-            <div class="number" id="workout">0</div>
-            <p>Minutes today</p>
-
-            <div class="progress">
-                <div class="progress-bar" id="workoutBar"></div>
-            </div>
-
-            <button onclick="addWorkout()">+ 10 Min</button>
-        </div>
-
-    </div>
-
-    <!-- Workouts -->
-    <div class="section">
-        <h2>🏃 Popular Workouts</h2>
-
-        <div class="workouts">
-
-            <div class="workout">
-                <span>🏃</span>
-                <h3>Running</h3>
-                <p>Burn calories with running.</p>
-                <br>
-                <button onclick="startWorkout('Running')">
-                    Start
-                </button>
-            </div>
-
-            <div class="workout">
-                <span>🚴</span>
-                <h3>Cycling</h3>
-                <p>Improve stamina and fitness.</p>
-                <br>
-                <button onclick="startWorkout('Cycling')">
-                    Start
-                </button>
-            </div>
-
-            <div class="workout">
-                <span>🧘</span>
-                <h3>Yoga</h3>
-                <p>Relax your body and mind.</p>
-                <br>
-                <button onclick="startWorkout('Yoga')">
-                    Start
-                </button>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- BMI -->
-    <div class="section bmi">
-
-        <h2>⚖️ BMI Calculator</h2>
-
-        <div class="bmi-box">
-
-            <label>Weight (kg)</label>
-            <input type="number" id="weight" placeholder="Enter weight">
-
-            <label>Height (cm)</label>
-            <input type="number" id="height" placeholder="Enter height">
-
-            <button onclick="calculateBMI()">
-                Calculate BMI
+        <nav>
+            <button class="nav-btn active" onclick="showSection('dashboard', this)">
+                🏠 Dashboard
             </button>
 
-            <div id="bmiResult"></div>
+            <button class="nav-btn" onclick="showSection('workout', this)">
+                🏋️ Workout
+            </button>
 
-        </div>
+            <button class="nav-btn" onclick="showSection('nutrition', this)">
+                🍎 Nutrition
+            </button>
 
-    </div>
+            <button class="nav-btn" onclick="showSection('hydration', this)">
+                💧 Hydration
+            </button>
+
+            <button class="nav-btn" onclick="showSection('progress', this)">
+                📈 Progress
+            </button>
+
+            <button class="nav-btn" onclick="showSection('achievements', this)">
+                🏆 Achievements
+            </button>
+        </nav>
+
+        <button class="theme-btn" onclick="toggleTheme()">
+            🌙 Dark Mode
+        </button>
+
+    </aside>
+
+
+    <!-- Main -->
+    <main class="main">
+
+        <!-- Header -->
+        <header>
+
+            <div>
+                <p class="small">Welcome back 👋</p>
+                <h1>Good Morning, <span id="userName">Anshika</span></h1>
+                <p>Let's make today count.</p>
+            </div>
+
+            <div class="profile">
+                <div class="avatar">A</div>
+            </div>
+
+        </header>
+
+
+        <!-- Dashboard -->
+        <section id="dashboard" class="page active-page">
+
+            <div class="section-title">
+                <div>
+                    <h2>Today's Overview</h2>
+                    <p>Track your daily fitness goals.</p>
+                </div>
+
+                <button class="reset" onclick="resetDay()">
+                    Reset Today
+                </button>
+            </div>
+
+
+            <!-- Fitness Score -->
+            <div class="score-card">
+
+                <div>
+                    <p>Today's Fitness Score</p>
+                    <h2 id="fitnessScore">0</h2>
+                    <p>Keep going! You're doing great 🔥</p>
+                </div>
+
+                <div class="score-circle">
+                    <span id="scorePercent">0%</span>
+                </div>
+
+            </div>
+
+
+            <!-- Stats -->
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="icon green">👟</div>
+                    <div>
+                        <p>Steps</p>
+                        <h3><span id="steps">0</span></h3>
+                        <small>Goal: 10,000</small>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="icon orange">🔥</div>
+                    <div>
+                        <p>Calories</p>
+                        <h3><span id="calories">0</span></h3>
+                        <small>Goal: 500 kcal</small>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="icon blue">💧</div>
+                    <div>
+                        <p>Water</p>
+                        <h3><span id="water">0</span>/8</h3>
+                        <small>Glasses today</small>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="icon purple">⏱️</div>
+                    <div>
+                        <p>Workout</p>
+                        <h3><span id="workout">0</span> min</h3>
+                        <small>Goal: 60 min</small>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- Quick Actions -->
+            <div class="section-title">
+                <div>
+                    <h2>Quick Actions</h2>
+                </div>
+            </div>
+
+            <div class="quick-grid">
+
+                <button onclick="addSteps()">
+                    👟
+                    <span>+500 Steps</span>
+                </button>
+
+                <button onclick="addCalories()">
+                    🔥
+                    <span>+100 Calories</span>
+                </button>
+
+                <button onclick="addWater()">
+                    💧
+                    <span>+1 Glass</span>
+                </button>
+
+                <button onclick="addWorkout()">
+                    ⏱️
+                    <span>+10 Min Workout</span>
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- Workout -->
+        <section id="workout" class="page">
+
+            <div class="section-title">
+                <div>
+                    <h2>Workout Center 🏋️</h2>
+                    <p>Choose your workout and start moving.</p>
+                </div>
+            </div>
+
+            <div class="workout-grid">
+
+                <div class="workout-card">
+                    <span>🏃</span>
+                    <h3>Running</h3>
+                    <p>30 min • 250 kcal</p>
+                    <button onclick="startWorkout('Running')">
+                        Start Workout
+                    </button>
+                </div>
+
+                <div class="workout-card">
+                    <span>🚴</span>
+                    <h3>Cycling</h3>
+                    <p>45 min • 350 kcal</p>
+                    <button onclick="startWorkout('Cycling')">
+                        Start Workout
+                    </button>
+                </div>
+
+                <div class="workout-card">
+                    <span>🏋️</span>
+                    <h3>Strength</h3>
+                    <p>40 min • 300 kcal</p>
+                    <button onclick="startWorkout('Strength')">
+                        Start Workout
+                    </button>
+                </div>
+
+                <div class="workout-card">
+                    <span>🧘</span>
+                    <h3>Yoga</h3>
+                    <p>25 min • 120 kcal</p>
+                    <button onclick="startWorkout('Yoga')">
+                        Start Workout
+                    </button>
+                </div>
+
+            </div>
+
+
+            <div class="timer-box">
+
+                <p>Workout Timer</p>
+
+                <h1 id="timer">00:00</h1>
+
+                <button onclick="startTimer()">Start</button>
+                <button onclick="pauseTimer()">Pause</button>
+                <button onclick="resetTimer()">Reset</button>
+
+            </div>
+
+        </section>
+
+
+        <!-- Nutrition -->
+        <section id="nutrition" class="page">
+
+            <div class="section-title">
+                <div>
+                    <h2>Nutrition 🍎</h2>
+                    <p>Keep track of what you eat.</p>
+                </div>
+            </div>
+
+            <div class="nutrition-card">
+
+                <h3>Today's Calories</h3>
+
+                <div class="nutrition-number">
+                    <span id="foodCalories">0</span> kcal
+                </div>
+
+                <div class="progress">
+                    <div id="foodProgress"></div>
+                </div>
+
+                <button onclick="addFood()">
+                    + Add Food
+                </button>
+
+            </div>
+
+            <div class="food-list">
+
+                <div>🍌 Banana <span>105 kcal</span></div>
+                <div>🥚 Egg <span>78 kcal</span></div>
+                <div>🥛 Milk <span>120 kcal</span></div>
+                <div>🍚 Rice <span>206 kcal</span></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- Hydration -->
+        <section id="hydration" class="page">
+
+            <div class="section-title">
+                <div>
+                    <h2>Hydration 💧</h2>
+                    <p>Stay hydrated throughout the day.</p>
+                </div>
+            </div>
+
+            <div class="water-box">
+
+                <div class="water-glasses" id="glasses"></div>
+
+                <h2>
+                    <span id="waterBig">0</span> / 8 Glasses
+                </h2>
+
+                <button onclick="addWater()">
+                    + Add Glass
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- Progress -->
+        <section id="progress" class="page">
+
+            <div class="section-title">
+                <div>
+                    <h2>Progress 📈</h2>
+                    <p>Your weekly activity.</p>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <canvas id="activityChart"></canvas>
+            </div>
+
+        </section>
+
+
+        <!-- Achievements -->
+        <section id="achievements" class="page">
+
+            <div class="section-title">
+                <div>
+                    <h2>Achievements 🏆</h2>
+                    <p>Complete goals and unlock badges.</p>
+                </div>
+            </div>
+
+            <div class="achievement-grid">
+
+                <div class="achievement">
+                    <span>👟</span>
+                    <h3>10K Steps</h3>
+                    <p>Complete 10,000 steps.</p>
+                </div>
+
+                <div class="achievement">
+                    <span>💧</span>
+                    <h3>Hydration Hero</h3>
+                    <p>Drink 8 glasses.</p>
+                </div>
+
+                <div class="achievement">
+                    <span>🔥</span>
+                    <h3>Calorie Crusher</h3>
+                    <p>Burn 500 calories.</p>
+                </div>
+
+                <div class="achievement">
+                    <span>🏋️</span>
+                    <h3>Workout Pro</h3>
+                    <p>Complete 60 workout minutes.</p>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
 
 </div>
 
-<footer>
-    <p>© 2026 FitTrack | Fitness Tracker Project</p>
-</footer>
 
-
-<script>
-
-let steps = 0;
-let calories = 0;
-let water = 0;
-let workout = 0;
-
-
-// Add Steps
-function addSteps() {
-
-    steps += 500;
-
-    if (steps > 10000) {
-        steps = 10000;
-    }
-
-    document.getElementById("steps").innerText = steps;
-
-    let percentage = (steps / 10000) * 100;
-
-    document.getElementById("stepBar").style.width =
-        percentage + "%";
-}
-
-
-// Add Calories
-function addCalories() {
-
-    calories += 100;
-
-    if (calories > 500) {
-        calories = 500;
-    }
-
-    document.getElementById("calories").innerText = calories;
-
-    let percentage = (calories / 500) * 100;
-
-    document.getElementById("calorieBar").style.width =
-        percentage + "%";
-}
-
-
-// Add Water
-function addWater() {
-
-    water++;
-
-    if (water > 8) {
-        water = 8;
-    }
-
-    document.getElementById("water").innerText = water;
-
-    let percentage = (water / 8) * 100;
-
-    document.getElementById("waterBar").style.width =
-        percentage + "%";
-}
-
-
-// Add Workout
-function addWorkout() {
-
-    workout += 10;
-
-    if (workout > 60) {
-        workout = 60;
-    }
-
-    document.getElementById("workout").innerText = workout;
-
-    let percentage = (workout / 60) * 100;
-
-    document.getElementById("workoutBar").style.width =
-        percentage + "%";
-}
-
-
-// Start Workout
-function startWorkout(type) {
-
-    alert(type + " workout started! 💪");
-
-    addWorkout();
-}
-
-
-// BMI Calculator
-function calculateBMI() {
-
-    let weight =
-        parseFloat(document.getElementById("weight").value);
-
-    let height =
-        parseFloat(document.getElementById("height").value);
-
-    if (!weight || !height) {
-
-        document.getElementById("bmiResult").innerText =
-            "Please enter your weight and height.";
-
-        return;
-    }
-
-    height = height / 100;
-
-    let bmi = weight / (height * height);
-
-    let result = "";
-
-    if (bmi < 18.5) {
-        result = "Underweight";
-    }
-    else if (bmi < 25) {
-        result = "Normal";
-    }
-    else if (bmi < 30) {
-        result = "Overweight";
-    }
-    else {
-        result = "Obese";
-    }
-
-    document.getElementById("bmiResult").innerText =
-        "Your BMI: " + bmi.toFixed(1) + " (" + result + ")";
-}
-
-
-// Dark Mode
-function toggleDark() {
-
-    document.body.classList.toggle("dark");
-
-}
-
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
